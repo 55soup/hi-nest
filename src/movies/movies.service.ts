@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entity';
+import { UpdateMovieDto } from './dto/update-movie.dto';
 
 @Injectable()
 export class MoviesService {
@@ -31,7 +32,7 @@ export class MoviesService {
         })
     }
 
-    update(id:number, updateData){
+    update(id:number, updateData: UpdateMovieDto){
         const movie = this.getOne(id);
         this.deleteOne(id); // 기존 id movie를 삭제하고
         this.movies.push({...movie, ...updateData}); // updateDate를 넣은 배열을 새로 생성함
