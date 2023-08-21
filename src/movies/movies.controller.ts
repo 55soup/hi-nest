@@ -42,10 +42,7 @@ export class MoviesController {
     
     @Patch("/:id")
     path(@Param('id') movieId: string, @Body() updateData){
-        return {
-            updateMovie: movieId, // update한 movie id
-            ...updateData, // udpate한 data
-        }
+        return this.moviesService.update(movieId, updateData);
     }
 
 }
