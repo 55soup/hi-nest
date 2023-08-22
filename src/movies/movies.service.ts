@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { CreateMovieDto } from './dto/create-movie.dto';
 import { Movie } from './entities/movie.entity';
 
 @Injectable()
@@ -10,27 +11,27 @@ export class MoviesService {
         return this.movies;
     }
 
-    getOne(id:string): Movie{
-        const movie = this.movies.find(movie => movie.id === parseInt(id));
+    getOne(id:number): Movie{
+        const movie = this.movies.find(movie => movie.id === id);
         if(!movie){
             throw new NotFoundException(`Movie with ID: ${id} not found`);
         }
         return movie;
     }
 
-    deleteOne(id:string) {
+    deleteOne(id:number) {
         this.getOne(id) // movie.id가 존재하지 않을 경우 throw 처리해줌.
-        this.movies = this.movies.filter(movie => movie.id !== +id);
+        this.movies = this.movies.filter(movie => movie.id !== id);
     }
 
-    create(movieData:any){
+    create(movieData: CreateMovieDto){
         this.movies.push({
             id: this.movies.length + 1,
             ...movieData
         })
     }
 
-    update(id:string, updateData){
+    update(id:number, updateData){
         const movie = this.getOne(id);
         this.deleteOne(id); // 기존 id movie를 삭제하고
         this.movies.push({...movie, ...updateData}); // updateDate를 넣은 배열을 새로 생성함

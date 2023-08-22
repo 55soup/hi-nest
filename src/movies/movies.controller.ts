@@ -9,6 +9,7 @@ import {
     Query} from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
+import { CreateMovieDto } from './dto/create-movie.dto';
 
 @Controller('movies')
 export class MoviesController {
@@ -25,23 +26,24 @@ export class MoviesController {
     // }
 
     @Get(":id")
-    getOne(@Param("id") movieId: string): Movie{
+    getOne(@Param("id") movieId: number): Movie{
         // @Param: url parameter 가져오기
+        console.log(typeof movieId);
         return this.moviesService.getOne(movieId);
     }
 
     @Post()
-    create(@Body() movieData){// @Body(): body 데이터 가져오기
+    create(@Body() movieData : CreateMovieDto){// @Body(): body 데이터 가져오기
         return this.moviesService.create(movieData);
     }
 
     @Delete("/:id")
-    remove(@Param("id") movieId: string){
+    remove(@Param("id") movieId: number){
         return this.moviesService.deleteOne(movieId);
     }
     
     @Patch("/:id")
-    path(@Param('id') movieId: string, @Body() updateData){
+    path(@Param('id') movieId: number, @Body() updateData){
         return this.moviesService.update(movieId, updateData);
     }
 
