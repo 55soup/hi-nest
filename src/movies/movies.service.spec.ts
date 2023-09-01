@@ -11,7 +11,19 @@ describe('MoviesService', () => {
     }).compile();
 
     service = module.get<MoviesService>(MoviesService);
+    service.create({
+      title: "Test Movie",
+      genres: ['test'],
+      year: 2000,
+    });
   });
+
+  /*
+    * hooks
+    - beforeAll
+    - afterEach
+    - afterAll: 데이터베이스를 깨끗하게 지우는 함수를 넣을 수 잇음
+  */
 
   /*
   it("test name", () => {
@@ -33,11 +45,11 @@ describe('MoviesService', () => {
   describe("getOne", () => {
     // test를 위한 더미데이터 생성
     it('should return a movie', () => {
-      service.create({
-        title: "Test Movie",
-        genres: ['test'],
-        year: 2000,
-      });
+      // service.create({
+      //   title: "Test Movie",
+      //   genres: ['test'],
+      //   year: 2000,
+      // });
 
       const movie = service.getOne(1);
       expect(movie).toBeDefined();
@@ -46,13 +58,23 @@ describe('MoviesService', () => {
     });
 
     // 에러 test
-    it("should throw 404 error", () => {
+    it("should throw a NotFoundException", () => {
       try{
-        service.getOne(999);
+        // service.getOne(999);
+        service.update(999, {});
       }catch(e){
         expect(e).toBeInstanceOf(NotFoundException);
         // expect(e.message).toEqual(`Movie with ID: 999 not found`)
       }
     })
   });
+
+  // update test
+  describe("update", () => {
+    it("shooould update a movie", () => {
+      service.update(1, { title : "Updated Test"});
+      const movie = service.getOne(1);
+      expect(movie.title).toEqual('Updated Test');
+    })
+  })
 });
