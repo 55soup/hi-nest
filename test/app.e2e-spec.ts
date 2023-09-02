@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { INestApplication } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { AppModule } from './../src/app.module';
 
@@ -39,14 +39,15 @@ describe('AppController (e2e)', () => {
           year: 2021,
           geners: ['test']
         })
-        .expect(201);
+        .expect(HttpStatus.CREATED);
     })
 
     it("DELETE", () => {
       return request(app.getHttpServer())
         .delete("/movies")
-        .expect(404);
+        .expect(HttpStatus.NOT_FOUND);
     })
+
 
   });
   
